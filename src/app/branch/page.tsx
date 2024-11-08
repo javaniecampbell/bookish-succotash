@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter, useSearchParams} from 'next/navigation';
 import {useIndexedDb} from '@/app/providers/IndexDbProvider';
 import {KioskBranchDataType, useBranchInfoContext} from "@/hooks/BranchInfoHook";
+import {LoadingScreen} from "@/components/LoadingScreen";
 
 const SGJ_BRANCH_DATA_KEY = 'kiosk-branch-data';
 type ResultType = { successful: boolean; data: KioskBranchDataType | undefined };
@@ -16,6 +17,7 @@ const Loader = <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 150'>
                  repeatCount='indefinite'></animate>
     </path>
 </svg>
+
 
 const branchDataStringToObject = (encodedString: string): ResultType => {
     if (!encodedString) {
@@ -61,6 +63,7 @@ const Register = () => {
                 setIsInitializing(false);
                 setBranchData(branchData.data as KioskBranchDataType);
 
+                // TODO: clear timeout in useEffect abort controller and the dispose method
                 setTimeout(() => {
                     push('/');
                 }, 500)
@@ -81,26 +84,27 @@ const Register = () => {
         <div style={{zIndex: '999'}} className="text-center h-screen w-full grid  place-items-center">
 
 
-            {isError && (
-                <div className="text-center">
-                    <div>Kiosk failed to initialize.</div>
-                    <span>Please try again!</span>
-                </div>
-            )}
+            {/*{isError && (*/}
+            {/*    <div className="text-center">*/}
+            {/*        <div>Kiosk failed to initialize.</div>*/}
+            {/*        <span>Please try again!</span>*/}
+            {/*    </div>*/}
+            {/*)}*/}
 
             {!isError && isInitializing && (
                 <div className="branch-info__loading">
-                    <div>Loading indicator</div>
-                    {Loader}
-                    <span>Initializing Kiosk...</span>
+                    {/*<div>Loading indicator</div>*/}
+                    {/*{Loader}*/}
+                    <LoadingScreen/>
+                    {/*<span>Initializing Kiosk...</span>*/}
                 </div>
             )}
 
-            {!isError && !isInitializing && (
-                <div>
-                    <span>Kiosk Initialized Successfully!</span>
-                </div>
-            )}
+            {/*{!isError && !isInitializing && (*/}
+            {/*    <div>*/}
+            {/*        <span>Kiosk Initialized Successfully!</span>*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 };

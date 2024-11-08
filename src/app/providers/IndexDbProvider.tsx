@@ -21,6 +21,7 @@ export function IndexDbProvider({ children }: PropsWithChildren) {
 
     useEffect(() => {
         const initialize = async () => {
+            // TODO: Check if window object is available
             if (typeof window !== 'undefined') {
                 const indexedDatabase = await initDatabase();
                 if (indexedDatabase) setDb(indexedDatabase);
